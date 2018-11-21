@@ -15,64 +15,63 @@ Sunbird enables seamless access and discoverability of content through a framewo
 ## Scenario
 Let us consider an example of an organization, ABC Organization, which works in the domain of water conservation and works with multiple NGOs, village panchayats, and district administration authorities in multiple states of India. They need to create the framework for the water management domain. Their framework will have terms associated with categories specific to the domain. The following example depicts the categories and terms specifically used for the water management framework:
 
-| Framework Name | Categories            | Terms              |
-|----------------|-----------------------|--------------------|
-| ABC            |Water Management| Domestic, Industry, Agriculture|
-|                |Conservation | Awareness, Rain water harvesting, Recycling Waste Water|
-|                |Governance | Policies, Citizens Rights and Duties, Government Programs, Privatization, Water Pricing|
-|                |Technologies | Recycling Technologies, Irrigation Technologies, Water Conservation Technologies|
-|                |Agriculture | Irrigation, Dams, Ground Water Management, Water Management Practises|
-|                |Health | Safe water, Ground Water Contamination, Water Borne Diseases|
-|                |Water Directory |                      |	
+| Framework Name | Categories            | Terms                               |
+|----------------|-----------------------|-------------------------------------|
+| ABC            | Resources             | Ground Water, Spring, Surface Water |
+|                | Governance            | Ground Water, Spring, Surface Water |
+|                | Measurement & Mapping | Ground Water, Spring, Surface Water |
+|                | Funds                 | State, Central, Global              |
+|                | Management            | Ground Water, Spring, Surface Water |
 
 ABC Organization, may choose a predefined category and associate it to their own framework. Each category in the framework has terms associated with it. These terms are relevant to the created framework and can be created by the organization. 
 
 While creating a new framework, the framework creator needs to set up a new framework and align it to the categories and terms. A category can have terms either in sequential list or in hierarchical structure. Terms can be associated with other terms across categories. As a result, it is possible to select a term in the first category and hence restrict the set of available terms for the next category and so on. The organizations that are adopting Sunbird can link the categories and also change the labels but cannot override or add a new categories on their own. However, the Sunbird instance has the following categories in its predefined frameworks:
 
-```
-- Subject: Classification of stream specific values
-- Curriculum: Certifying body/stream government or private organization
-- Grade Level: Maturity level for knowledge  
-- Medium: Language of the course 
-- Topic: Details of the concept
-```
-
-Send a mail to [Sunbird Team](info@sunbird.org), if you want to create a new master category that is not part of Sunbird's predefined category list. You can however select and rename an existing category
+    - Subject: classification of stream specific values
+    - Board: certifying body/stream government or private organization
+    - Grade Level: maturity level for knowledge  
+    - Medium: language of the course 
+    - Topic: detail of the concepts 
+    
+A user can select one or more category amongst the defined category. 
  
-For example, for ABC organization the framework name is ABC and code is abc1. The category **Subject** is renamed to **Conservation**. The **Conservation** category defines the various water resources and has the terms as Awareness, Rain water harvesting, Recycling Waste Water and so on. 
+For example, for the organization ABC organization the framework name is ABC and code as abc1; the category selected is **Subject** and the label is modified as **Resources** which defines the various water resources and contains the terms as Ground Water, Spring, Surface Water and so on. 
 
-## Prerequisites
+### Prerequisites
 
-1. An intialized Sunbird instance with the channel 
+1. An intialized Sunbird instance with channel
 
-2. The [API Key for access](../developer-docs/generating_sunbird_api_keys/) to required APIs and basic authentication
+2. API Key to access Sunbird APIs. To create an API key refer [How to generate a Sunbird API key](developer-docs/how-to-guide/generate_apikey/)
   
-3. Software that can make API calls like curl or POSTMAN
+3. Software that can make API calls like curl or [POSTMAN](https://www.getpostman.com/docs/v6/postman/api_documentation/intro_to_api_documentation)
 
-4. Creation of the following entities with appropriate access permissions:
-   - Admin user (created using Keycloak) who has permissions to create an organization
-   - [Individual Organization](../apis/orgapi/#operation/Organisation%20Create)
-   - [Individual user](../apis/userapi/#operation/Create%20User) 
-   - [Mapping of created user(s) to the organization](../apis/orgapi/#operation/Organisation%20Add%20User)
+4. Onboarding the following with access to the API
 
-5. Access to [Framework API](../apis/framework/)
+    - Admin user     
 
-## Taskflow
+    - [Individual user](apis/userapi/#operation/Create%20User)
+
+    - [Individual Organization](apis/orgapi/#operation/Organisation%20Create) access 
+
+    - [Map users to the organization](apis/orgapi/#operation/Organisation%20Add%20User)
+
+5. Access to [Framework API](apis/framework/)
+
+### Taskflow
  
 The sequence of tasks the organization administrator follows to create a framework includes:
 
-### Creating Framework
+#### Create Framework
 
-1. Use the [Create Framework API](../apis/framework/#operation/FrameworkV1CreatePost), to create a new framework. Specify values for the parameters in the request body of the API. 
-
-2. Path for creating the Framework: ```{{host}}/framework/v1/create```
-
->**Host**: The URL of the installed Sunbird instance
-
+1. Use the [Create Framework API](http://www.sunbird.org/apis/framework/#operation/FrameworkV1CreatePost), to create a new framework. Specify values for the parameters in the request body of the API. 
 Following is an example of request body for creating a framework, the sample values provided in the request body are indicative:
-To retrieve the channels for the request parameter, use [List Channel API](../apis/framework/#operation/ChannelV1ListPost) 
+
+2. Path for creating the Framework: `{{host}}/framework/v1/create`
 
 ##### Request Body to Create Framework
+
+To retrieve the channels for the request parameter, use [List Channel API](apis/framework/#operation/ChannelV1ListPost)
+
     {
     "request": {
         "framework": {
@@ -80,24 +79,21 @@ To retrieve the channels for the request parameter, use [List Channel API](../ap
             "code": "abc1",
             "description": "Framework for ABC Management",
             "translations": {"hi":"ABC-अनुवाद","ta":"ABC மொழிபெயர்ப்பு"},
-            "type": "Others",
+            "type": "TPD",
             }
         }
     } 
 
 **Description of Parameters**
 
-Name: The name of the framework as provided by the organization
-
-Code: A user defined value that is used as the framework identifier 
-
-Description: Describes the framework
-
-Translations: Enables framework in different languages 
-
-Type: Non mandatory field that defines the type of framework and permissible values K-12, TPD, Agri, Others
+- Name: The name of the framework as provided by the organization
+- Code: A user defined value that is used as the framework identifier 
+- Description: Describes the framework
+- Translations: Enables framework in different languages 
+- Type: defines the type of content
 
 ##### Response Body to Create Framework
+
     {
     "responseCode": "OK",
     "result": {
@@ -107,129 +103,36 @@ Type: Non mandatory field that defines the type of framework and permissible val
             "translations": "{\"hi\":\"ABC-अनुवाद\",\"ta\":\"ABC மொழிபெயர்ப்பு\"}",
             "name": "ABC",
             "description": "Framework for ABC Management",
-            "type": "Others",
+            "type": "",
+            "objectType": "Framework"
             }
         }
     }
 
-**Description of Parameters**
+#### Create Category
 
-Identifier: Unique ID that is provided by the user as code
+1. Use the [Add Category API](apis/framework/#operation/FrameworkV1CategoryCreatePost), to create a new category in the framework. 
 
-Code: A user defined value that is used as the framework identifier 
+> Note: You must send a request to [Sunbird Team](info@sunbird.org) for creating new category. 
 
-Translations: Enables framework in different languages 
+The sample values provided in the request body are indicative. The API describes the procedure to change the label(resources) of an existing category (subject):
 
-Name: Name of the organization as provided in the request body for creating a framework
+2. Path for creating category: `{{host}}/framework/v1/category/create?framework=abc1`
 
-Description: Describes the framework
+##### Request Body to Rename Categories
 
-Type: Defines the type of content
-
-### Validating a Category
-
-1. Use [Search Category API](../apis/framework/#operation/FrameworkV1CategorySearchPost) to fetch the list of the available master categories.
-
-Path for searching the category: `{{host}}/action/framework/v1/category/master/search`
-
-##### Request Body for Searching Master Categories
-    {
-        "request": {
-            "search":{
-            "status":"Live"
-            }
-        } 
-    }
-
-**Description of Parameters**
-
-Status: The depict the category with **Live** status
-
-##### Response Body for Searching Master Categories
-    {
-    "responseCode": "OK",
-    "result": {
-        "count": 5,
-        "categories": [
-            {
-                "identifier": "board",
-                "code": "board",
-                ...
-                "status": "Live"
-            },
-            {
-                "identifier": "gradeLevel",
-                "code": "gradeLevel",
-                ...
-                "status": "Live"
-            },
-            {
-                "identifier": "subject",
-                "code": "subject",
-                ...
-                "status": "Live"
-            },
-            {
-                "identifier": "medium",
-                "code": "medium",
-                ...
-                "status": "Live"
-            },
-            {
-                "identifier": "topic",
-                "code": "topic",
-                ...
-                "status": "Live"
-            },
-            ]
-        }
-    }
-
-**Description of Parameters**
-
-Identifier: Unique identifier of the existing category
-
-Code: A defined value that is used as the category identifier. Currently, 5 codes are supported as board, gradelevel, subject, medium, and topic.  
-
-Status: Depicts the status of the Category 
-
-> Note: If you need to add a master category that doesnot exist in the master list of the existing category, you must send a request to <a href="mailto:info@sunbird.org?subject=New Category Request">Sunbird Team</a>. The request must have following values:
->   - Name of the category 
->   - Description 
->   - Data type of the category is string (contain Alphanumeric values and )
-> 
-> The Sunbird team sends the attributes of the created category   
-
-### Configuring Category for the Instance
-
-The ABC organization with the framework **ABC** and code as abc1; the category selected is Subject and the label is modified as **Conservation** which defines the various water resources and contains the terms as Awareness, Rainwater harvesting, Recycling Waste Water.
-
-1. Use the [Add Category API](http://www.sunbird.org/apis/framework/#operation/FrameworkV1CreatePost), to create a new category in the framework. 
-
-2. Path for adding the category: `{{host}}/action/api/framework/v1/category/create?framework=abc1`
-where `abc1` is the framework identifier
-
-The sample values provided in the request body are indicative. The API describes the procedure to change the label(resources) of an existing category(subject):
-
-##### Request Body for adding Category
     {
     "request": {
-    "category": {
-        "code": "subject",
-        "name": "Conservation",
-        "description": "string",
+        "category":{
+            "name":"resources",
+            "description":"Subject is changed to Resources",
+            "code":"subject"
+            }
         }
     }
 
-**Description of Parameters**
+##### Response Body to Rename Categories
 
-Code: A user defined value that is used as the category identifier
-
-Name: The name of the category 
-
-Description: Short introduction of the category
-
-##### Response Body for adding Category
     {
         "responseCode": "OK",
         "result": {
@@ -238,76 +141,49 @@ Description: Short introduction of the category
             }
     }
 
-**Description of Parameters**
 
-Node_ID: Identifier of the framework category
+#### Create a Term
 
-VersionKey: Identifies the version of changed Category 
+1. Use the [Add Term API](apis/framework/#operation/FrameworkV1TermCreatePost), to create a new term in the category.
+The categories can be retrieved and listed using [Fetch API](apis/framework/#operation/FrameworkV1CategoryReadClassGet). The sample values provided in the request body are indicative.
 
-### Creating a Term
+2. Path for creating category: `{{host}}/framework/v1/term/create?framework=abc1&category=subject`
 
-1. Use the [Add Term API](http://www.sunbird.org/apis/framework/#operation/FrameworkV1TermCreatePost), to create a new term in the category.
-The categories can be retrieved and listed using [Fetch API](http://www.sunbird.org/apis/framework/#operation/FrameworkV1CategoryReadClassGet). The sample values provided in the request body are indicative.
-
-2. Path for creating category: `{{host}}/framework/v1/term/create?framework=abc1&category=conservation`
-
-##### Request Body to Create Terms 
+##### Request Body to Add Terms 
 
     {
     "request": {
         "term": [
             {
-            "code": "awareness",
-            "name": "Awareness",
-            "description":"Describes awarness for conservation of water"
+            "code": "river",
+            "name": "River",
+            "description":"Describes River"
             },
             {
-            "code": "rainwaterharvesting",
-            "name": "Rain Water Harvesting",
-            "description":"Describes methods of harvesting rain water"
-            }
-            {
-            "code": "recyclingwastewater",
-            "name": "Recycling Waste Water",
-            "description":"Describes methods of recycling waste water"
+            "code": "sea",
+            "name": "Sea",
+            "description":"Describes Sea"
             }
             ]
         }
     }
 
-**Description of Parameters**
-
-Code: A user defined value that is used as the framework identifier 
-
-Name: The name of the framework as provided by the organization
-
-Description: Describes the framework
-
-##### Response Body to Create Terms
+##### Response Body to Add Terms
 
     {
     "responseCode": "OK",
     "result": {
         "node_id": [
-            "abc1_subject_awareness",
-            "abc1_subject_rainwaterharvesting", 
-            "abc1_subject_recyclingwastewater"
+            "abc1_subject_river",
+            "abc1_subject_sea"
             ]
         }
     }
 
-**Description of Parameters**
-
-Node_ID: Unique identifier for the created terms 
-
-## Concepts Covered
+### Concepts Covered
 
 **Framework**- A structure designed to define the scope of something. On Sunbird, the framework is defined through a string of vocabularies
 
-## Additional Topics
+### Additional Topics
 
-How do I extend or customize a framework in Sunbird
-
-How do I seed a framework in Sunbird
-
-How do I associate framework to categories and categories to a terms in Sunbird
+How do I [seed a framework in Sunbird](developer-docs/how-to-guide/how_to_seeddata_in_framework)
